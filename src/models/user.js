@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database')
+const { sequelize } = require('../config/database');
+const Role = require('./role');
 
 
 const User = sequelize.define('users', {
@@ -29,9 +30,11 @@ const User = sequelize.define('users', {
     aboutMe: {
         type: DataTypes.TEXT
     },
-    role: {
+    roleId: {
         type: DataTypes.INTEGER
     }
 })
+
+
 
 module.exports = User
