@@ -31,10 +31,13 @@ const User = sequelize.define('users', {
         type: DataTypes.TEXT
     },
     roleId: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Role,
+            key: 'id'
+          }
     }
 })
-
 
 
 module.exports = User
