@@ -1,5 +1,5 @@
-import Sequelize from 'sequelize'
-import { envConfig } from './envConfig.js'
+const Sequelize = require('sequelize')
+const { envConfig } = require('./envConfig')
 
  const sequelize = new Sequelize(
     'facecloone',
@@ -9,4 +9,4 @@ import { envConfig } from './envConfig.js'
     dialect: 'postgres'
 })
 
-module.exports = sequelize
+module.exports = { sequelize }
