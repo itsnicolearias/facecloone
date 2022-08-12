@@ -1,8 +1,10 @@
 const express = require('express')
 const { envConfig } = require('./config/envConfig')
 const { sequelize } =require('./config/database')
+
 require('./models/user')
 require('./models/role')
+require('./models/post')
 
 const app = express()
 
