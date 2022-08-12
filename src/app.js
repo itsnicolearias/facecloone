@@ -6,6 +6,7 @@ require('./models/user')
 require('./models/role')
 require('./models/post')
 require('./models/comment')
+require('./models/message')
 
 const app = express()
 
