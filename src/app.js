@@ -2,6 +2,8 @@ const express = require('express')
 const createError = require('http-errors')
 const { envConfig } = require('./config/envConfig')
 const { sequelize } =require('./config/database')
+const index = require('./routes/index')
+require('dotenv').config()
 
 //require('./models/user')
 //require('./models/role')
@@ -14,6 +16,8 @@ const app = express()
 app.use(express.json)
 
 sequelize.sync({ alter: true })
+
+app.use('/', index)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
