@@ -5,6 +5,7 @@ const { sequelize } =require('./config/database')
 require('./models/user')
 require('./models/role')
 require('./models/post')
+require('./models/comment')
 
 const app = express()
 
