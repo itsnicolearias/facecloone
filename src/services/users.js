@@ -4,9 +4,7 @@ const { User } = require('../models/user')
 
 
 exports.getAllUsers = async () => {
-  const users = await User.findAll({
-    attributes: ['name', 'email'],
-  })
+  const users = await User.findAll()
   return users
 }
 

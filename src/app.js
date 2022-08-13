@@ -5,7 +5,7 @@ const { sequelize } =require('./config/database')
 const index = require('./routes/index')
 require('dotenv').config()
 
-//require('./models/user')
+require('./models/user')
 //require('./models/role')
 //require('./models/post')
 //require('./models/comment')
