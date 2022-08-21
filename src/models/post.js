@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
-const User = require('./user');
-
+const { User } = require('./user');
 
 const Post = sequelize.define('posts', {
     id: {
@@ -32,4 +31,4 @@ const Post = sequelize.define('posts', {
     }
 })
 
-module.exports = Post;
+module.exports = { Post };

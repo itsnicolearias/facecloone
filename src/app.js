@@ -5,11 +5,15 @@ const { envConfig } = require('./config/envConfig')
 const { sequelize } = require('./config/database')
 const createError = require('http-errors')
 
+require('./models/post')
+require('./models/user')
+require('./models/role')
+
 const PORT = envConfig.app.port
 
 const app = express()
 
-sequelize.sync()
+sequelize.sync({ alter: true })
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

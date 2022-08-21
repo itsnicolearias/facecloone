@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt')
 const { ErrorObject } = require('../helpers/error')
 const { User } = require('../models/user')
 
-
 exports.getAllUsers = async () => {
   const users = await User.findAll()
   return users

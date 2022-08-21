@@ -6,7 +6,7 @@ module.exports = {
 
     register: async (req, res, next) => {
         try {
-            const  {body}  = req
+            const { body } = req
             const response = await Register(body)
             endpointResponse({
                 res,
@@ -14,6 +14,7 @@ module.exports = {
                 body: response
             })
         } catch (error) {
+            console.log(error)
             const httpError = createHttpError(
                 error.statusCode,
                 `[Error retreiving info ] - [users - REGISTER]: ${error.message}`,
@@ -28,7 +29,7 @@ module.exports = {
             const response = await Login(email, password)
             endpointResponse({
                 res,
-                message: 'User loggued successfully',
+                message: 'User logged successfully',
                 body: response
             })
         } catch (error) {
