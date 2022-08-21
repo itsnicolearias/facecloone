@@ -9,6 +9,10 @@ const {
     APP_PORT,
     DB_USER,
     DB_PASSWORD,
+    DB_HOST,
+    DB_NAME,
+    DB_PORT,
+    DB_DIALECT,
     SECRET_TOKEN,
     MAIL_USER,
     MAIL_PASSWORD,
@@ -25,7 +29,11 @@ exports.envConfig = {
     },
     db: {
         user: DB_USER,
-        password: DB_PASSWORD
+        password: DB_PASSWORD,
+        host: DB_HOST,
+        name: DB_NAME,
+        port: DB_PORT,
+        dialect:'mysql',
     },
     jwt: {
         secret: SECRET_TOKEN

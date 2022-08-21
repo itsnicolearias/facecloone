@@ -1,20 +1,20 @@
 const bcrypt = require('bcrypt')
 const { ErrorObject } = require('../helpers/error')
 const { generateToken } = require('../middlewares/jwt')
-const {User} = require('../models/user')
+const { User } = require('../models/user')
 const { getUserByEmail } = require('./users')
 
 
-exports.Register = async (user) => {
+exports.Register = async (body) => {
     try {
-        const existantUser = await getUserByEmail(user.email)
+        const existantUser = await getUserByEmail(body.email)
         if (existantUser) {
           throw new ErrorObject('Email already in use', 404)
         }
-        const hashedPassword = await bcrypt.hash(user.password, 10)
-        user.password = hashedPassword
-        user.roleId = 2
-        const newUser = await User.create(user)
+        const hashedPassword = await bcrypt.hash(body.password, 10)
+        body.password = hashedPassword
+        body.roleId = 2
+        const newUser = await User.create(body)
         if (!newUser) {
           throw new ErrorObject('User registration failed', 404)
         }

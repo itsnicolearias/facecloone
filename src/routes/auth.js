@@ -5,7 +5,7 @@ const { registerBody, loginBody } = require('../schemas/users')
 
 const router = Router()
 
-router.post('/register', schemaValidator(registerBody), register)
-router.post('/login', schemaValidator(loginBody), login)
+router.post('/register',  register)
+router.post('/login',  login)
 
 module.exports = router
