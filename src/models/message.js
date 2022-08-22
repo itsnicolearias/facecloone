@@ -28,4 +28,4 @@ const Message = sequelize.define('messages', {
     }
 })
 
-module.exports = Message
+module.exports = { Message }

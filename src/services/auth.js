@@ -7,10 +7,10 @@ const { getUserByEmail } = require('./users')
 
 exports.Register = async (body) => {
     try {
-        const existantUser = await getUserByEmail(body.email)
+        /*const existantUser = await getUserByEmail(body.email)
         if (existantUser) {
           throw new ErrorObject('Email already in use', 404)
-        }
+        }*/
         const hashedPassword = await bcrypt.hash(body.password, 10)
         body.password = hashedPassword
         body.roleId = 2

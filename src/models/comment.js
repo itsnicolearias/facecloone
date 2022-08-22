@@ -1,7 +1,7 @@
 const { sequelize } = require('../config/database')
 const { DataTypes } = require('sequelize')
-const Post = require('./post')
-const User = require('./user')
+const { Post } = require('./post')
+const { User } = require('./user')
 
 const Comment = sequelize.define('comments', {
     id: {
@@ -31,4 +31,4 @@ const Comment = sequelize.define('comments', {
     }
 })
 
-module.exports = Comment
+module.exports = {Comment}

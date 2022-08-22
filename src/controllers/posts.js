@@ -22,7 +22,7 @@ module.exports = {
 
     getById: async (req, res, next) => {
         try {
-            const { id } = req.body
+            const { id } = req.params
             const response = await getPostById(id)
             endpointResponse({
                 res,
@@ -41,7 +41,8 @@ module.exports = {
     create: async(req, res, next) => {
         try {
             const { body } = req
-            const response = await createPost(body)
+            const token = req.header('Authorization')
+            const response = await createPost(token, body)
             endpointResponse({
                 res,
                 message: 'Post created successfully',

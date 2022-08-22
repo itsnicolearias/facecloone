@@ -1,4 +1,5 @@
 const { ErrorObject } = require('../helpers/error')
+const { decodeToken } = require('../middlewares/jwt')
 const { Post } = require('../models/post')
 
 exports.getAllPost = async () => {
@@ -22,8 +23,10 @@ exports.getPostById = async (id) => {
     }
 }
 
-exports.createPost = async (body) => {
+exports.createPost = async (token, body) => {
     try {
+        const user = await decodeToken(token)
+        body.userId = user.user.id
         const post = await Post.create(body)
         return post
     } catch (error) {
