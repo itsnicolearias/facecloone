@@ -2,7 +2,6 @@ const { Router } = require('express')
 const { getAll, getById, update, destroy } = require('../controllers/users')
 const { validateToken } = require('../middlewares/validateToken')
 const verifyOwnership = require('../middlewares/verifyOwnership')
-const { User } = require('../models/user')
 
 const router = Router()
 

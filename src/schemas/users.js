@@ -18,7 +18,11 @@ exports.registerBody = {
         exists: {
             errorMessage: 'password cannot be null',
         }
-    }
+    },
+      age: {
+        isInt : { min: 13 },
+        exists: { errorMessage: 'Age cannot be null'}
+      }
 }
 
 exports.loginBody = {
@@ -61,9 +65,5 @@ exports.userBody = {
       phone: {
         isMobilePhone: { errorMessage: 'Invalid phone number'},
         exists: { errorMessage: 'Phone cannot be null '}
-      },
-      age: {
-        isInt : { min: 13 },
-        exists: { errorMessage: 'Age cannot be null'}
       }
 }

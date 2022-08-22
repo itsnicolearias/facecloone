@@ -4,16 +4,26 @@ const morgan = require('morgan')
 const { envConfig } = require('./config/envConfig')
 const { sequelize } = require('./config/database')
 const createError = require('http-errors')
+const { ErrorObject } = require('./helpers/error')
 
 require('./models/post')
 require('./models/user')
 require('./models/role')
+require('./models/comment')
 
 const PORT = envConfig.app.port
 
 const app = express()
 
-sequelize.sync({ alter: true })
+const connectDB = async () => {
+  try {
+    await sequelize.sync({ alter: false })
+  } catch (error) {
+    throw new ErrorObject(error.message, error.statusCode || 500)
+  }
+}
+
+connectDB()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
