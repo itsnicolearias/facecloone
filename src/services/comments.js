@@ -22,8 +22,10 @@ exports.getCommentById = async (id) => {
     }
 }
 
-exports.createComment = async (body) => {
+exports.createComment = async (token, body) => {
     try {
+        const user = await decodeToken(token)
+        body.userId = user.user.id
         const comment = await Comment.create(body)
         return comment
         } catch (error) {

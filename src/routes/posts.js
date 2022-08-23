@@ -11,6 +11,6 @@ router.get('/', getAll)
 router.get('/:id', getById)
 router.post('/', [validateToken, schemaValidator(postBody)], create)
 router.put('/:id', [validateToken, verifyOwnership('Post'), schemaValidator(postBody)], put)
-router.delete('/:id', validateToken, destroy)
+router.delete('/:id', [validateToken, verifyOwnership('Post')], destroy)
 
 module.exports = router

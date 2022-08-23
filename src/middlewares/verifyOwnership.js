@@ -5,7 +5,7 @@ const { User } = require('../models/user')
 const { decodeToken } = require('./jwt')
 
 module.exports = (entity) => (async (req, res, next) => {
-  const model = entity === 'User' ? User : Post
+  const model = entity === 'User' ? User : 'message' || entity === 'Post' ? Post : 'Post' || entity === 'Comment' ? Comment : 'Comment'
   const token = req.header('Authorization')
 
   const result = await model.findByPk(req.params.id)

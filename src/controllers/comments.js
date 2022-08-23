@@ -41,7 +41,8 @@ module.exports = {
     create: async (req, res, next) => {
         try {
             const { body } = req
-            const response = await createComment(body)
+            const token = req.header('Authorization')
+            const response = await createComment(token, body)
             endpointResponse({
                 res,
                 message: 'Comment created successfully',
