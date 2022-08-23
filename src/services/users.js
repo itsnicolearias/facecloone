@@ -1,20 +1,11 @@
 const bcrypt = require('bcrypt')
 const { ErrorObject } = require('../helpers/error')
 const { User } = require('../models/user')
+const { Post } = require('../models/Post')
 
 exports.getAllUsers = async () => {
   const users = await User.findAll()
   return users
-}
-
-exports.createUser = async (User) => {
-  try {
-    const user = await User.create(user)
-  return user
-  } catch (error) {
-    console.log(error)
-  }
-  
 }
 
 exports.getUserByEmail = async (email) => {
@@ -53,11 +44,10 @@ exports.getPassword = (myPlaintextPassword, hash) => {
 exports.deleteUser = async (id) => {
   try {
     const user = await User.findByPk(id)
-    if (user) {
-      User.destroy({ where: { id: user.id } })
-    } else {
+    if(!user){
       throw new ErrorObject('User not found', 404)
     }
+    await user.destroy()
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500)
   }
@@ -73,6 +63,15 @@ exports.updateUserById = async (id, body) => {
     body.password = hashedPassword
     await user.update(body)
     return user
+  } catch (error) {
+    throw new ErrorObject(error.message, error.statusCode || 500)
+  }
+}
+
+exports.getUsersPost = async (id) => {
+  try {
+    const posts = await Post.findAll({ where: { userId: id }})
+    return posts
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500)
   }

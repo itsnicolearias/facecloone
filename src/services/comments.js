@@ -1,4 +1,5 @@
 const { ErrorObject } = require('../helpers/error')
+const { decodeToken } = require('../middlewares/jwt')
 const { Comment } = require('../models/comment')
 
 exports.getAllComments = async () => {

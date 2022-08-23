@@ -1,6 +1,6 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
-const { getAllUsers, getUserById, updateUserById, deleteUser } = require('../services/users')
+const { getAllUsers, getUserById, updateUserById, deleteUser, getUsersPost } = require('../services/users')
 
 module.exports = {
     getAll: async (req, res, next) => {
@@ -74,4 +74,22 @@ module.exports = {
               next(httpError)
         }
     },
+
+    getPost: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const response = await getUsersPost(id)
+            endpointResponse({
+                res,
+                message: 'Posts of user obtained successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [users - GET POSTs]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    }
 }
