@@ -1,6 +1,6 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
-const { getAllPost, getPostById, createPost, updatePost, deletePost } = require('../services/posts')
+const { getAllPost, getPostById, createPost, updatePost, deletePost, getPostComments } = require('../services/posts')
 
 module.exports = {
     getAll: async(req, res, next) => {
@@ -89,6 +89,24 @@ module.exports = {
             const httpError = createHttpError(
                 error.statusCode,
                 `[Error retreiving info ] - [post - DELETE]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    },
+
+    getComments: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const response = await getPostComments(id)
+            endpointResponse({
+                res,
+                message: 'Comments of post obtained successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [post - GET COMMENTS]: ${error.message}`,
               )
               next(httpError)
         }

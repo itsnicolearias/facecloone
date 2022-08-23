@@ -1,5 +1,6 @@
 const { ErrorObject } = require('../helpers/error')
 const { decodeToken } = require('../middlewares/jwt')
+const { Comment } = require('../models/comment')
 const { Post } = require('../models/post')
 
 exports.getAllPost = async () => {
@@ -54,6 +55,22 @@ exports.deletePost = async (id) => {
             throw new ErrorObject('Post not found', 404)
         }
         await post.destroy()
+    } catch (error) {
+        throw new ErrorObject(error.message, error.statusCode || 500)
+    }
+}
+
+exports.getPostComments = async (id) => {
+    try {
+        const post = await this.getPostById(id)
+        const comments = await Comment.findAll({ where: { postId: id }})
+        if (!comments){
+            throw new ErrorObject('There are no comments', 404)
+        }
+        return {
+            post,
+            comments
+        }
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
