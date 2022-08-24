@@ -5,6 +5,7 @@ const { envConfig } = require('./config/envConfig')
 const { sequelize } = require('./config/database')
 const createError = require('http-errors')
 const { ErrorObject } = require('./helpers/error')
+const fileupload = require('express-fileupload')
 
 require('./models/post')
 require('./models/user')
@@ -28,6 +29,7 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan('tiny'))
+app.use(fileupload())
 
 app.use('/', indexRouter)
 

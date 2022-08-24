@@ -2,6 +2,7 @@ const { ErrorObject } = require('../helpers/error')
 const { decodeToken } = require('../middlewares/jwt')
 const { Comment } = require('../models/comment')
 const { Post } = require('../models/post')
+const { uploadImage, deleteImage } = require('./imageService')
 
 exports.getAllPost = async () => {
     try {
@@ -24,10 +25,13 @@ exports.getPostById = async (id) => {
     }
 }
 
-exports.createPost = async (token, body) => {
+exports.createPost = async (token, body, files) => {
     try {
         const user = await decodeToken(token)
         body.userId = user.user.id
+        if (files){
+            body.images = await uploadImage(files.image)
+        }
         const post = await Post.create(body)
         return post
     } catch (error) {
@@ -35,11 +39,14 @@ exports.createPost = async (token, body) => {
     }
 }
 
-exports.updatePost = async (id, body) => {
+exports.updatePost = async (id, body, files) => {
     try {
         const existantPost = await Post.findByPk(id)
         if (!existantPost){
             throw new ErrorObject('Post not found', 404)
+        }
+        if (files){
+            body.images = await uploadImage(files.image)
         }
         const newPost = await existantPost.update(body)
         return newPost
@@ -53,6 +60,9 @@ exports.deletePost = async (id) => {
         const post = await Post.findByPk(id)
         if(!post){
             throw new ErrorObject('Post not found', 404)
+        }
+        if(post.images){
+            await deleteImage(post.images)
         }
         await post.destroy()
     } catch (error) {

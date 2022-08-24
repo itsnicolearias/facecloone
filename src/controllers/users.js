@@ -41,8 +41,8 @@ module.exports = {
     update: async (req, res, next) => {
         try {
             const { id } = req.params
-            const { body } = req
-            const response = await updateUserById(id, body)
+            const { body, files } = req
+            const response = await updateUserById(id, body, files)
             endpointResponse({
                 res,
                 message: 'User successfully updated ',

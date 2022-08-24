@@ -1,6 +1,7 @@
 const { ErrorObject } = require('../helpers/error')
 const { decodeToken } = require('../middlewares/jwt')
 const { Comment } = require('../models/comment')
+const { uploadImage, deleteImage } = require('./imageService')
 
 exports.getAllComments = async () => {
     try {
@@ -23,10 +24,13 @@ exports.getCommentById = async (id) => {
     }
 }
 
-exports.createComment = async (token, body) => {
+exports.createComment = async (token, body, files) => {
     try {
         const user = await decodeToken(token)
         body.userId = user.user.id
+        if (files){
+            body.image = await uploadImage(files.image)
+        }
         const comment = await Comment.create(body)
         return comment
         } catch (error) {
@@ -34,11 +38,14 @@ exports.createComment = async (token, body) => {
         }
 }
 
-exports.updateComment = async (id, body) => {
+exports.updateComment = async (id, body, files) => {
     try {
         const comment = await Comment.findByPk(id)
         if (!comment) {
             throw new ErrorObject('Comment not found', 404)
+        }
+        if (files){
+            body.image = await uploadImage(files.image)
         }
         const updatedComment = await comment.update(body)
         return updatedComment
@@ -52,6 +59,9 @@ exports.deleteComment = async (id) => {
         const comment = await Comment.findByPk(id)
         if (!comment) {
             throw new ErrorObject('Comment not found', 404)
+        }
+        if (comment.image){
+            await deleteImage(comment.image)
         }
         await comment.destroy()
     } catch (error) {

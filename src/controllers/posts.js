@@ -40,9 +40,9 @@ module.exports = {
 
     create: async(req, res, next) => {
         try {
-            const { body } = req
+            const { body, files } = req
             const token = req.header('Authorization')
-            const response = await createPost(token, body)
+            const response = await createPost(token, body, files)
             endpointResponse({
                 res,
                 message: 'Post created successfully',
@@ -60,8 +60,8 @@ module.exports = {
     put: async(req, res, next) => {
         try {
             const { id } = req.params
-            const { body } = req
-            const response = await updatePost(id, body)
+            const { body, files } = req
+            const response = await updatePost(id, body, files)
             endpointResponse({
                 res,
                 message: 'Post updated successfully',

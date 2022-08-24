@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const { ErrorObject } = require('../helpers/error')
 const { User } = require('../models/user')
 const { Post } = require('../models/Post')
+const { uploadImage, deleteImage } = require('./imageService')
 
 exports.getAllUsers = async () => {
   const users = await User.findAll()
@@ -47,20 +48,28 @@ exports.deleteUser = async (id) => {
     if(!user){
       throw new ErrorObject('User not found', 404)
     }
+    if(user.profilePic){
+      await deleteImage(user.profilePic)
+    }
     await user.destroy()
   } catch (error) {
     throw new ErrorObject(error.message, error.statusCode || 500)
   }
 }
 
-exports.updateUserById = async (id, body) => {
+exports.updateUserById = async (id, body, files) => {
   try {
     const user = await User.findByPk(id)
     if (!user) {
       throw new ErrorObject('User not found', 404)
     }
-    const hashedPassword = await bcrypt.hash(body.password, 10)
-    body.password = hashedPassword
+    if (body.password){
+      const hashedPassword = await bcrypt.hash(body.password, 10)
+      body.password = hashedPassword
+    }
+    if (files){
+      body.profilePic = await uploadImage(files.image)
+    }
     await user.update(body)
     return user
   } catch (error) {
