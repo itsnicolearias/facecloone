@@ -1,11 +1,10 @@
 const { Router } = require('express')
 const { serve, setup } = require('swagger-ui-express')
-const { swaggerConfig } = require('../config/swaggerConfig')
-const swaggerJSDocs = require('swagger-jsdoc')(swaggerConfig) 
+const swagger = require('../config/swagger/swagger.json')
 
 const router = Router()
 
 router.use('/', serve)
-router.get('/', setup(swaggerJSDocs))
+router.get('/', setup(swagger))
 
 module.exports = router

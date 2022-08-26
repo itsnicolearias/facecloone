@@ -1,0 +1,143 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Facecloone",
+      "description": "An facebook clone made by Nicole Arias",
+      "version": "0.0.1"
+    },
+    "tags": [
+        {
+            "name": "AUTH",
+            "description": "Operations about authentications."
+        },
+        {
+          "name": "USERS",
+          "description": "Operations about users."
+        },
+        {
+            "name": "POST",
+            "description": "Operations about posts."
+        },
+        {
+            "name": "COMMENTS",
+            "description": "Operations about comments."
+        }
+      ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+              "description": "Register a user",
+              "tags": ["AUTH"],
+              "responses": {}
+            }
+          },
+
+          "/auth/login": {
+            "post": {
+              "description": "Login a user",
+              "tags": ["AUTH"],
+              "responses": {}
+            }
+          },
+
+          "/auth/myprofile": {
+            "get": {
+              "description": "An authenticated user can see his profile",
+              "tags": ["AUTH"],
+              "responses": {}
+            },
+            "put": {
+                "description": "An authenticated user can see his profile",
+                "tags": ["AUTH"],
+                "responses": {}
+            }
+          },
+
+          "/users": {
+            "get": {
+              "description": "List all users",
+              "tags": ["USERS"],
+              "responses": {}
+            }
+          },
+          "/users/{id}": {
+            "get": {
+                "description": "Get a user",
+                "tags": ["USERS"],
+                "responses": {},
+                "parameters": []
+            },
+            "put": {
+                "description": "List all users",
+                "tags": ["USERS"],
+                "responses": {}
+            },
+            "delete": {
+                "description": "List all users",
+                "tags": ["USERS"],
+                "responses": {}
+              }
+          },
+
+          "/posts": {
+            "get": {
+              "description": "List all posts",
+              "tags": ["POST"],
+              "responses": {}
+            },
+            "post": {
+              "description": "create a ne posts",
+              "tags": ["POST"],
+              "responses": {}
+            }
+          },
+          "/posts/{id}": {
+             "get": {
+                "description": "Get a post",
+                "tags": ["POST"],
+                "responses": {}
+             },
+             "put": {
+              "description": "List all posts",
+              "tags": ["POST"],
+              "responses": {}
+            },
+            "delete": {
+                "description": "List all posts",
+                "tags": ["POST"],
+                "responses": {}
+              }
+          },
+
+          "/comments": {
+            "get": {
+              "description": "List all comments",
+              "tags": ["COMMENTS"],
+              "responses": {}
+            },
+            "post": {
+                "description": "List all comments",
+                "tags": ["COMMENTS"],
+                "responses": {}
+            }
+        },
+         "/comments/{id}": {
+            "get": {
+                "description": "Get a comment",
+                "tags": ["COMMENTS"],
+                "responses": {},
+                "parameters": []
+            },
+            "put": {
+                "description": "List all comments",
+                "tags": ["COMMENTS"],
+                "responses": {}
+            },
+            "delete": {
+                "description": "List all comments",
+                "tags": ["COMMENTS"],
+                "responses": {}
+            }
+          }
+    }
+  }
