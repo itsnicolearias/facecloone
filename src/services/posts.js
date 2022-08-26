@@ -57,14 +57,15 @@ exports.updatePost = async (id, body, files) => {
 
 exports.deletePost = async (id) => {
     try {
-        const post = await Post.findByPk(id)
-        if(!post){
+        const response = await this.getPostComments(id)
+        if(!response){
             throw new ErrorObject('Post not found', 404)
         }
-        if(post.images){
-            await deleteImage(post.images)
+        if (response.comments){
+            await this.deleteCommentsOfPost(id)
         }
-        await post.destroy()
+        await Post.destroy({ where: { id: id }})
+       
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
@@ -81,6 +82,14 @@ exports.getPostComments = async (id) => {
             post,
             comments
         }
+    } catch (error) {
+        throw new ErrorObject(error.message, error.statusCode || 500)
+    }
+}
+
+exports.deleteCommentsOfPost = async (id) => {
+    try {
+        await Comment.destroy({ where: { postId: id }})
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }

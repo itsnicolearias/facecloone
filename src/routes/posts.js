@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { getAll, getById, create, put, destroy, getComments } = require('../controllers/posts')
+const { getAll, getById, create, put, destroy, getComments, deleteComments } = require('../controllers/posts')
 const { schemaValidator } = require('../middlewares/validateSchema')
 const { validateToken } = require('../middlewares/validateToken')
 const verifyOwnership = require('../middlewares/verifyOwnership')
@@ -13,5 +13,6 @@ router.post('/', [validateToken, schemaValidator(postBody)], create)
 router.put('/:id', [validateToken, verifyOwnership('Post'), schemaValidator(postBody)], put)
 router.delete('/:id', [validateToken, verifyOwnership('Post')], destroy)
 router.get('/:id/comments', getComments)
+router.delete('/:id/comments', deleteComments)
 
 module.exports = router
