@@ -6,7 +6,7 @@ const verifyOwnership = require('../middlewares/verifyOwnership')
 
 const router = Router()
 
-router.get('/', [validateToken, verifyAdmin], getAll)
+router.get('/', getAll)
 router.get('/:id', getById)
 router.put('/:id', [validateToken, verifyOwnership('User')], update)
 router.delete('/:id', [validateToken, verifyOwnership('User')], destroy)

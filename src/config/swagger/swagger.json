@@ -28,6 +28,41 @@
             "post": {
               "description": "Register a user",
               "tags": ["AUTH"],
+              "requestBody": {
+                "required": true,
+                "content": {
+                 "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "type": "string",
+                        "required": true
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": true
+                      },
+                      "age": {
+                        "type": "integer",
+                        "required": true
+                      },
+                      "email": {
+                        "type": "string",
+                        "required": true,
+                        "format": "email"
+                      },
+                      "password":{
+                        "type": "string",
+                        "required": true,
+                        "format": "password"
+                      }
+      
+                    }
+                  }
+                 }
+                }
+              },
               "responses": {}
             }
           },
@@ -36,6 +71,28 @@
             "post": {
               "description": "Login a user",
               "tags": ["AUTH"],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string",
+                          "required": true,
+                          "format": "email"
+                        },
+                        "password": {
+                          "type": "string",
+                          "required": true,
+                          "format": "password"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
               "responses": {}
             }
           },
@@ -47,8 +104,44 @@
               "responses": {}
             },
             "put": {
-                "description": "An authenticated user can see his profile",
+                "description": "An authenticated user can update his profile",
                 "tags": ["AUTH"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "firstName":{
+                            "type": "string"
+                          },
+                          "lastName":{
+                            "type": "string"
+                          },
+                          "age": {
+                            "type": "integer"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "phone": {
+                            "type": "integer"
+                          },
+                          "password": {
+                            "type": "string",
+                            "format": "password"
+                          },
+                          "aboutMe": {
+                            "type": "text"
+                          }
+
+                        }
+                      }
+                    }
+                  }
+                },
                 "responses": {}
             }
           },
@@ -64,17 +157,85 @@
             "get": {
                 "description": "Get a user",
                 "tags": ["USERS"],
-                "responses": {},
-                "parameters": []
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the user you want to see",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {}
             },
             "put": {
                 "description": "List all users",
                 "tags": ["USERS"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the user that needs to be updated.",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "firstName":{
+                            "type": "string"
+                          },
+                          "lastName":{
+                            "type": "string"
+                          },
+                          "age": {
+                            "type": "integer"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "phone": {
+                            "type": "integer"
+                          },
+                          "password": {
+                            "type": "string",
+                            "format": "password"
+                          },
+                          "aboutMe": {
+                            "type": "text"
+                          }
+
+                        }
+                      }
+                    }
+                  }
+                },
                 "responses": {}
             },
             "delete": {
                 "description": "List all users",
                 "tags": ["USERS"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the user you want to delete",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
                 "responses": {}
               }
           },
@@ -86,8 +247,24 @@
               "responses": {}
             },
             "post": {
-              "description": "create a ne posts",
+              "description": "create a new posts",
               "tags": ["POST"],
+              "requestBody":{
+                "required": true,
+                "content":{
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                        "type": "text"
+                      }
+                      }
+                      
+                    }
+                  }
+                }
+              },
               "responses": {}
             }
           },
@@ -95,16 +272,64 @@
              "get": {
                 "description": "Get a post",
                 "tags": ["POST"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the post you want to see.",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
                 "responses": {}
              },
              "put": {
               "description": "List all posts",
               "tags": ["POST"],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "The id of the post that needs to be updated.",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content":{
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "text"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
               "responses": {}
             },
             "delete": {
                 "description": "List all posts",
                 "tags": ["POST"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the post you want to delete.",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
                 "responses": {}
               }
           },
@@ -125,17 +350,49 @@
             "get": {
                 "description": "Get a comment",
                 "tags": ["COMMENTS"],
-                "responses": {},
-                "parameters": []
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the comment you want to see.",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "responses": {}
             },
             "put": {
                 "description": "List all comments",
                 "tags": ["COMMENTS"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the comment that needs to be updated.",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
                 "responses": {}
             },
             "delete": {
                 "description": "List all comments",
                 "tags": ["COMMENTS"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "description": "The id of the comment you want to delete",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
                 "responses": {}
             }
           }

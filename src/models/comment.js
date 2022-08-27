@@ -14,20 +14,6 @@ const Comment = sequelize.define('comments', {
     },
     image: {
         type: DataTypes.STRING
-    },
-    userId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-          }
-    },
-    postId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Post,
-            key: 'id'
-        }
     }
 })
 

@@ -4,6 +4,7 @@ const { User } = require('../models/user')
 const { Post } = require('../models/Post')
 const { uploadImage, deleteImage } = require('./imageService')
 
+
 exports.getAllUsers = async () => {
   const users = await User.findAll()
   return users

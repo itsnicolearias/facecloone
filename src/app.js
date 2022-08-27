@@ -6,23 +6,12 @@ const { sequelize } = require('./config/database')
 const createError = require('http-errors')
 const { ErrorObject } = require('./helpers/error')
 const fileupload = require('express-fileupload')
+const  {connectDB}  = require('./models')
 
-require('./models/post')
-require('./models/user')
-require('./models/role')
-require('./models/comment')
 
 const PORT = envConfig.app.port
 
 const app = express()
-
-const connectDB = async () => {
-  try {
-    await sequelize.sync({ alter: false })
-  } catch (error) {
-    throw new ErrorObject(error.message, error.statusCode || 500)
-  }
-}
 
 connectDB()
 

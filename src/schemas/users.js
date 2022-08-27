@@ -1,8 +1,15 @@
 exports.registerBody = {
-    name: {
+    firstName: {
       isString: { errorMessage: 'name is not a string' },
       exists: {
         errorMessage: 'name cannot be null',
+        options: { checkFalsy: true },
+      },
+    },
+    lastName: {
+      isString: { errorMessage: 'lastName is not a string' },
+      exists: {
+        errorMessage: 'lastName cannot be null',
         options: { checkFalsy: true },
       },
     },

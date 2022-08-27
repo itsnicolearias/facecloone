@@ -11,20 +11,6 @@ const Message = sequelize.define('messages', {
     },
     body: {
         type: DataTypes.INTEGER
-    },
-    from: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
-    to: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
     }
 })
 

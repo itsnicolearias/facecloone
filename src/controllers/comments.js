@@ -3,6 +3,7 @@ const { endpointResponse } = require('../helpers/success')
 const { getAllComments, getCommentById, createComment, updateComment, deleteComment } = require('../services/comments')
 
 module.exports = {
+
     getAll: async (req, res, next) => {
         try {
             const response = await getAllComments()

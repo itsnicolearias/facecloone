@@ -10,7 +10,7 @@ const router = Router()
 router.get('/',  getAll)
 router.get('/:id', getById)
 router.post('/', [validateToken, schemaValidator(commentBody)], create)
-router.put('/:id', [validateToken, verifyOwnership('Comment'), schemaValidator(commentBody)], put)
+router.put('/:id', [validateToken,  schemaValidator(commentBody)], put)
 router.delete('/:id', [validateToken, verifyOwnership('Comment')], destroy)
 
 module.exports = router

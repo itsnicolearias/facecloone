@@ -9,7 +9,10 @@ const User = sequelize.define('users', {
         primaryKey: true,
         autoIncrement: true
     },
-    name: {
+    firstName: {
+        type: DataTypes.STRING
+    },
+    lastName: {
         type: DataTypes.STRING
     },
     age: {
@@ -31,12 +34,11 @@ const User = sequelize.define('users', {
     aboutMe: {
         type: DataTypes.TEXT
     },
-    roleId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Role,
-            key: 'id'
-          }
+    state: {
+        type: DataTypes.STRING
+    },
+    city: {
+        type: DataTypes.STRING
     }
 })
 
