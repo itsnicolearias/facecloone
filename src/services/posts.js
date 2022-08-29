@@ -22,7 +22,7 @@ exports.getAllPost = async (content) => {
 
 exports.getPostById = async (id) => {
     try {
-        const post = await Post.findAll({
+        const post = await Post.findOne({
             where: {id: id},
             include: Comment
         })
@@ -67,17 +67,20 @@ exports.updatePost = async (id, body, files) => {
 
 exports.deletePost = async (id) => {
     try {
-        const response = await this.getPostComments(id)
-        if(!response){
+        const post = await Post.findOne({
+            where: {id: id},
+            include: Comment
+        })
+        if (!post){
             throw new ErrorObject('Post not found', 404)
         }
-        if (response.comments){
+        if(post.comments){
             await this.deleteCommentsOfPost(id)
         }
-        if(response.post.images){
-            await deleteImage(response.post.images)
+        if(post.images){
+            await deleteImage(post.images)
         }
-        await Post.destroy({ where: { id: id }})
+        await post.destroy()
        
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
