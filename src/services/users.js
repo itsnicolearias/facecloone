@@ -1,13 +1,36 @@
 const bcrypt = require('bcrypt')
+const { Op } = require('sequelize')
 const { ErrorObject } = require('../helpers/error')
 const { User } = require('../models/user')
 const { Post } = require('../models/Post')
 const { uploadImage, deleteImage } = require('./imageService')
 
 
-exports.getAllUsers = async () => {
-  const users = await User.findAll()
-  return users
+exports.getAllUsers = async (name, state, city) => {
+  try {
+    let where = {}
+    if (name){
+      where = {
+        [Op.or]: [
+          { firstName: {[Op.like]: '%'+name+'%' }},
+          { lastName: {[Op.like]: '%'+name+'%' }},
+        ],
+      } 
+    }
+    if(state){
+      where.state = {[Op.like]: '%'+state+'%'}
+    }
+    if(city){
+      where.city = {[Op.like]: '%'+city+'%'}
+    }
+    return await User.findAll({
+      where,
+      attributes: ["firstName", "lastName", "profilePic" ],
+    })
+  } catch (error) {
+    throw new ErrorObject(error.message, error.statusCode || 500)
+  }
+  
 }
 
 exports.getUserByEmail = async (email) => {

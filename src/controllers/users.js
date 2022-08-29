@@ -5,7 +5,8 @@ const { getAllUsers, getUserById, updateUserById, deleteUser, getUsersPost } = r
 module.exports = {
     getAll: async (req, res, next) => {
         try {
-            const response = await getAllUsers()
+            const {name, state, city} = req.query
+            const response = await getAllUsers(name, state, city)
             endpointResponse({
                 res,
                 message: 'All users obtained successfully',
