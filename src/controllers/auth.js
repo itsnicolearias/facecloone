@@ -14,7 +14,6 @@ module.exports = {
                 body: response
             })
         } catch (error) {
-            console.log(error)
             const httpError = createHttpError(
                 error.statusCode,
                 `[Error retreiving info ] - [users - REGISTER]: ${error.message}`,

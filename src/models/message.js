@@ -10,7 +10,7 @@ const Message = sequelize.define('messages', {
         autoIncrement: true
     },
     body: {
-        type: DataTypes.INTEGER
+        type: DataTypes.TEXT
     }
 })
 

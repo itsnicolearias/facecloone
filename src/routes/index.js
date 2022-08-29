@@ -3,6 +3,7 @@ const auth = require('./auth')
 const users = require('./users')
 const posts = require('./posts')
 const comments = require('./comments')
+const messages = require('./messages')
 const swagger = require('./swagger')
 
 const router = Router()
@@ -14,6 +15,7 @@ router.use('/auth', auth)
 router.use('/users', users)
 router.use('/posts', posts)
 router.use('/comments', comments)
+router.use('/messages', messages)
 router.use('/api/docs', swagger)
 
 
