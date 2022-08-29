@@ -5,7 +5,8 @@ const { getAllPost, getPostById, createPost, updatePost, deletePost, getPostComm
 module.exports = {
     getAll: async(req, res, next) => {
         try {
-            const response = await getAllPost()
+            const { content } = req.query
+            const response = await getAllPost(content)
             endpointResponse({
                 res,
                 message: 'All post obtained successfully',

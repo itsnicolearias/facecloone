@@ -1,13 +1,20 @@
+const { Op } = require('sequelize')
 const { ErrorObject } = require('../helpers/error')
 const { decodeToken } = require('../middlewares/jwt')
 const { Comment } = require('../models/comment')
 const { Post } = require('../models/post')
 const { uploadImage, deleteImage } = require('./imageService')
 
-exports.getAllPost = async () => {
+exports.getAllPost = async (content) => {
     try {
-        const post = await Post.findAll()
-        return post
+        let where = {}
+        if(content){
+            where.content = {[Op.like]: '%'+content+'%'}
+        }
+        return await Post.findAll({
+            where,
+            attributes: ["userId", "content", "images"]
+        })
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
@@ -15,7 +22,10 @@ exports.getAllPost = async () => {
 
 exports.getPostById = async (id) => {
     try {
-        const post = await Post.findByPk(id)
+        const post = await Post.findAll({
+            where: {id: id},
+            include: Comment
+        })
         if(!post){
             throw new ErrorObject('Post not found', 404)
         }
@@ -63,6 +73,9 @@ exports.deletePost = async (id) => {
         }
         if (response.comments){
             await this.deleteCommentsOfPost(id)
+        }
+        if(response.post.images){
+            await deleteImage(response.post.images)
         }
         await Post.destroy({ where: { id: id }})
        
