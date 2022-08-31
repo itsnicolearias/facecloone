@@ -1,6 +1,6 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
-const { sendRequest, deleteRequest, listPendingRequest, listSendedRequest } = require('../services/friends')
+const { sendRequest, deleteRequest, listPendingRequest, listSendedRequest, acceptRequest, declineRequest, listFriends, deleteFriend } = require('../services/friends')
 
 module.exports = {
 
@@ -17,7 +17,7 @@ module.exports = {
         } catch (error) {
             const httpError = createHttpError(
                 error.statusCode,
-                `[Error retreiving info ] - [comment - GET]: ${error.message}`,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
               )
               next(httpError)
         }
@@ -35,7 +35,7 @@ module.exports = {
         } catch (error) {
             const httpError = createHttpError(
                 error.statusCode,
-                `[Error retreiving info ] - [comment - GET]: ${error.message}`,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
               )
               next(httpError)
         }
@@ -53,7 +53,7 @@ module.exports = {
         } catch (error) {
             const httpError = createHttpError(
                 error.statusCode,
-                `[Error retreiving info ] - [comment - GET]: ${error.message}`,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
               )
               next(httpError)
         }
@@ -71,7 +71,80 @@ module.exports = {
         } catch (error) {
             const httpError = createHttpError(
                 error.statusCode,
-                `[Error retreiving info ] - [comment - GET]: ${error.message}`,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    },
+
+    accept: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const { body } = req
+            const response = await acceptRequest(id, body)
+            endpointResponse({
+                res,
+                message: 'request accepted successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    },
+
+    decline: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const response = await declineRequest(id)
+            endpointResponse({
+                res,
+                message: 'request declined successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    },
+
+    list: async (req, res, next) => {
+        try {
+            const token = req.header('Authorization')
+            const response = await listFriends(token)
+            endpointResponse({
+                res,
+                message: 'friends listed successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
+              )
+              next(httpError)
+        }
+    },
+
+    deleteFriendship: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const response = await deleteFriend(id)
+            endpointResponse({
+                res,
+                message: 'friendship deleted successfully',
+                body: response
+            })
+        } catch (error) {
+            const httpError = createHttpError(
+                error.statusCode,
+                `[Error retreiving info ] - [request - GET]: ${error.message}`,
               )
               next(httpError)
         }
