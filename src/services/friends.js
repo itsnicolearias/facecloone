@@ -3,12 +3,17 @@ const { decodeToken } = require("../middlewares/jwt")
 const { Request } = require('../models/request')
 const { Friend } = require('../models/friend')
 const { User } = require("../models/user")
+const { Op } = require("sequelize")
 
-exports.sendRequest = async (token, body) => {
+exports.sendRequest = async (token, id) => {
     try {
         const user = await decodeToken(token)
-        body.userId = user.user.id
-        const request = await Request.create(body)
+        
+        const request = await Friend.create({
+        userId: user.user.id,
+        friendId: id,
+        statusId: 1
+        })
         return request
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
@@ -17,7 +22,7 @@ exports.sendRequest = async (token, body) => {
 
 exports.deleteRequest = async (id) => {
     try {
-        const request = await this.findRequestById(id)
+        const request = await this.findFriendshipById(id)
         await request.destroy()
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
@@ -27,12 +32,14 @@ exports.deleteRequest = async (id) => {
 exports.listPendingRequest = async (token) => {
     try {
         const user = await decodeToken(token)
-        const pending = await Request.findAll({
-            where: { toId: user.user.id }
+        const pending = await Friend.findAll({
+            where: {
+              [Op.and]: [
+                { friendId: user.user.id },
+                { statusId: 1 }
+              ]
+            }
         })
-        if(!pending){
-            throw new ErrorObject('There are no pending request yet', 404)
-        }
         return pending
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
@@ -42,25 +49,28 @@ exports.listPendingRequest = async (token) => {
 exports.listSendedRequest = async (token) => {
     try {
         const user = await decodeToken(token)
-        const sended = await Request.findAll({
-            where: { userId: user.user.id }
+        const sended = await Friend.findAll({
+            where: {
+              [Op.and]: [
+                { userId: user.user.id },
+                { statusId: 1 }
+              ]
+            }
         })
-        if(sended.lenght = 0){
-            throw new ErrorObject('There are no sended request yet', 404)
-        }
+        
         return sended   
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
 }
 
-exports.findRequestById = async (id) => {
+exports.findFriendshipById = async (id) => {
     try {
-        const request = await Request.findByPk(id)
-        if (!request){
-            throw new ErrorObject('Request not found', 404)
+        const friendship = await Friend.findByPk(id)
+        if (!friendship){
+            throw new ErrorObject('Friendship not found', 404)
         }
-        return request
+        return friendship
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
@@ -68,12 +78,9 @@ exports.findRequestById = async (id) => {
 
 exports.acceptRequest = async (id, body) => {
     try {
-        const request = await this.findRequestById(id)
-        body.userId = request.toId 
-        body.FriendId = request.userId
-        const friend = await Friend.create(body)
-        await this.deleteRequest(id)
-        return friend
+        const friendship = await this.findFriendshipById(id)
+        body.statusId = 3
+        return await friendship.update(body)
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
@@ -90,21 +97,15 @@ exports.declineRequest = async (id) => {
 exports.listFriends = async (token) => {
     try {
         const user = await decodeToken(token)
-        const id  = user.user.id
-        
         const friends = await Friend.findAll({
-            where: { userId: id },
-            attributes: ["FriendId"]
-
+            where: {
+                [Op.or]: [
+                    { userId: user.user.id},
+                    { friendId: user.user.id}
+                ]
+            }
         })
-        const names = await User.findAll({
-            where: { id: id },
-            attributes: ["firstName", "lastName"],
-            include: 'user'
-        })
-
-        console.log(names)
-        return names
+        return friends
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)
     }
@@ -112,10 +113,7 @@ exports.listFriends = async (token) => {
 
 exports.deleteFriend = async (id) => {
     try {
-        const friend = await Friend.findByPk(id)
-        if(!friend){
-            throw new ErrorObject('Friend not found')
-        }
+        const friend = await this.findFriendshipById(id)
         await friend.destroy()
     } catch (error) {
         throw new ErrorObject(error.message, error.statusCode || 500)

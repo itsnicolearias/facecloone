@@ -7,8 +7,8 @@ module.exports = {
     send: async (req, res, next) => {
         try {
             const token = req.header('Authorization')
-            const { body } = req
-            const response = await sendRequest(token, body)
+            const { id } = req.params
+            const response = await sendRequest(token, id)
             endpointResponse({
                 res,
                 message: 'Request sended successfully',

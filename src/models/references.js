@@ -39,13 +39,13 @@ Comment.belongsTo(User)
 // relacion doble via
 User.belongsToMany(User, { 
     as: 'user',
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     uniqueKey: false,
     through: Friend
   });
 User.belongsToMany(User, { 
     as: 'friend',
-    foreignKey: 'friend_id',
+    foreignKey: 'friendId',
     uniqueKey: false,
     through: Friend
   });
