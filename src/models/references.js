@@ -3,9 +3,9 @@ const { Post } = require('./post')
 const { Comment } = require('./comment')
 const { Message } = require('./message')
 const { Request } = require('./request')
-const { Friend } = require('./friend')
 const { Role } = require('./role')
 const { Like, typeLike } = require('./like')
+const { Friend, Status } = require('./friend')
 
 // roleId se agregara a user
 Role.hasOne(User)
@@ -35,20 +35,26 @@ Like.belongsTo(typeLike)
 User.hasMany(Comment)
 Comment.belongsTo(User)
 
-//ok
-
-// un user tiene muchas solicitudes
-User.hasOne(Request, { as: 'from', foreignKey: 'userId' })
-User.hasOne(Request, { as: 'to' })
-Request.belongsTo(User)
-
-// un user tiene muchos friends
+// un user tiene muchos friends y a la vez ese amigo tiene otros amigos
 // relacion doble via
-User.hasOne(Friend, { as: 'user', foreignKey: 'userId' })
-User.hasOne(Friend, { as: 'Friend'})
-Friend.belongsTo(User)
+User.belongsToMany(User, { 
+    as: 'user',
+    foreignKey: 'user_id',
+    uniqueKey: false,
+    through: Friend
+  });
+User.belongsToMany(User, { 
+    as: 'friend',
+    foreignKey: 'friend_id',
+    uniqueKey: false,
+    through: Friend
+  });
 
-// un user tiene muchos messages
+// una amistad tiene un tipo y los tipos pertenecen a friends
+Status.hasOne(Friend)
+Friend.belongsTo(Status)
+
+// un user tiene muchos messages y el receiver a la vez tiene otros mensajes
 User.hasOne(Message, { as: 'sender', foreignKey: 'userId' })
 User.hasOne(Message, { as: 'receiver' })
 Message.belongsTo(User)

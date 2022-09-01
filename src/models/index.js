@@ -14,7 +14,7 @@ const { ErrorObject } = require('../helpers/error')
 
 const connectDB = async () => {
     try {
-      await sequelize.sync({ alter: false })
+      await sequelize.sync({ alter: true })
     } catch (error) {
       throw new ErrorObject(error.message, error.statusCode || 500)
     }

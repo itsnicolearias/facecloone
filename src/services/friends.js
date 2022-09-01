@@ -98,10 +98,11 @@ exports.listFriends = async (token) => {
 
         })
         const names = await User.findAll({
-            where: { id: friends },
+            where: { id: id },
             attributes: ["firstName", "lastName"],
+            include: 'user'
         })
-        console.log(friends.dataValues)
+
         console.log(names)
         return names
     } catch (error) {
