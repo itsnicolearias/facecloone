@@ -1,5 +1,5 @@
 
-![image](https://user-images.githubusercontent.com/96268221/188042534-5baebbcd-70d5-4cd0-9bae-27853ff7334f.png)
+![image](https://user-images.githubusercontent.com/96268221/188043114-3727bf36-66e4-4d2d-b1f0-0c6cddb16cf2.png)
 
 An Facebook clone made in Node JS 
 
