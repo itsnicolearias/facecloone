@@ -1,4 +1,6 @@
-# facecloone
+
+![image](https://user-images.githubusercontent.com/96268221/188042534-5baebbcd-70d5-4cd0-9bae-27853ff7334f.png)
+
 An Facebook clone made in Node JS 
 
 # TECHNOLOGIES
