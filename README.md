@@ -7,7 +7,7 @@ An Facebook clone made in Node JS
 -Node JS
 -Express JS
 -Sequelize
--MariaDB
+-MySQL
 -AWS S3
 -Swagger
 
